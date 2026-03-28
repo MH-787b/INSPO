@@ -1,0 +1,104 @@
+{
+  "categories": {
+    "color-light": {
+      "name": "Color & Light",
+      "icon": "🎨",
+      "prompts": [
+        "What color is silence?",
+        "Paint the space between shadows",
+        "Find three colors you've never noticed in your room",
+        "What would sunset look like on another planet?",
+        "Mix two colors that shouldn't work together",
+        "Draw only with the colors you can see right now",
+        "What color is the feeling of waiting?",
+        "Capture light as it bends through glass"
+      ],
+      "words": [
+        "luminance", "chiaroscuro", "iridescent", "penumbra",
+        "aureate", "opalescent", "chromatic", "gossamer",
+        "translucent", "prismatic", "burnished", "refraction"
+      ],
+      "soundType": "warm-drone"
+    },
+    "texture-form": {
+      "name": "Texture & Form",
+      "icon": "🪨",
+      "prompts": [
+        "Draw a sound you heard today",
+        "What does rough look like from the inside?",
+        "Sculpt something that can't exist in gravity",
+        "Trace the edges of a memory",
+        "Create a texture that feels like Tuesday",
+        "Build a structure from contradictions",
+        "What shape is your current mood?",
+        "Find pattern in something chaotic"
+      ],
+      "words": [
+        "tessellate", "corrugated", "fractal", "sinuous",
+        "lattice", "striated", "amorphous", "crystalline",
+        "undulate", "granular", "filament", "patina"
+      ],
+      "soundType": "texture-noise"
+    },
+    "emotion-mood": {
+      "name": "Emotion & Mood",
+      "icon": "💭",
+      "prompts": [
+        "Create something that feels like nostalgia",
+        "What does joy look like at 3am?",
+        "Illustrate a word that doesn't exist yet",
+        "Make art from your smallest worry",
+        "Draw the last dream you remember",
+        "What would comfort look like as a landscape?",
+        "Express the pause between breaths",
+        "Create something you'd want to find in a time capsule"
+      ],
+      "words": [
+        "saudade", "petrichor", "ephemeral", "melancholy",
+        "serendipity", "ethereal", "wistful", "reverie",
+        "solitude", "catharsis", "yearning", "tender"
+      ],
+      "soundType": "gentle-melody"
+    },
+    "nature-elements": {
+      "name": "Nature & Elements",
+      "icon": "🌿",
+      "prompts": [
+        "Draw what the wind is carrying today",
+        "Create art using only organic shapes",
+        "What would a river paint if it could?",
+        "Capture the exact moment before rain",
+        "Illustrate the underground life of a forest",
+        "What does the ocean floor dream about?",
+        "Draw fire in slow motion",
+        "Create a map of somewhere that only exists in nature"
+      ],
+      "words": [
+        "verdant", "tempest", "erosion", "bioluminescent",
+        "symbiosis", "metamorphic", "canopy", "tidal",
+        "basalt", "confluence", "aurora", "mycelium"
+      ],
+      "soundType": "wind-rain"
+    },
+    "movement-energy": {
+      "name": "Movement & Energy",
+      "icon": "⚡",
+      "prompts": [
+        "Capture motion without showing the moving thing",
+        "Draw the rhythm of your heartbeat",
+        "What does acceleration look like?",
+        "Create art in exactly 60 seconds",
+        "Illustrate the energy in a crowded room",
+        "Draw something falling apart beautifully",
+        "What would music look like if you could see it?",
+        "Create a piece that feels like it's vibrating"
+      ],
+      "words": [
+        "kinetic", "cascade", "momentum", "oscillate",
+        "turbulence", "crescendo", "pulse", "reverberate",
+        "entropy", "vortex", "ignition", "tremor"
+      ],
+      "soundType": "pulse-rhythm"
+    }
+  }
+}
