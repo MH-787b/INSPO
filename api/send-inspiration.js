@@ -85,7 +85,7 @@ function buildEmail(inspo, imageBase64) {
     </div>
 
     <div style="margin-bottom:32px;border-radius:8px;overflow:hidden;">
-      <img src="${imgSrc}" alt="AI-generated inspiration" style="width:100%;height:auto;display:block;" />
+      <img src="${imgSrc}" alt="Inspiration" style="width:100%;height:auto;display:block;" />
     </div>
 
     <div style="text-align:center;margin-bottom:16px;">
@@ -104,7 +104,7 @@ function buildEmail(inspo, imageBase64) {
 
     <div style="text-align:center;border-top:1px solid #222;padding-top:20px;">
       <p style="font-size:12px;font-family:Arial,sans-serif;color:#666;margin:0;">
-        INSPO — free AI-powered inspiration for artists.
+        INSPO — free inspiration for artists.
       </p>
     </div>
 

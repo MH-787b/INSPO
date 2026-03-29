@@ -1,11 +1,11 @@
-# INSPO — AI Inspiration for Artists
+# INSPO — Inspiration for Artists
 
 ## Overview
-A minimal website where users enter their email and instantly receive an AI-generated image with a creative prompt. Everything is free.
+A minimal website where users enter their email and instantly receive a unique image with a creative prompt. Everything is free.
 
 ## Tech Stack
 - **Frontend**: Vanilla HTML/CSS/JS (no framework, no build step)
-- **AI Images**: Cloudflare Workers AI — FLUX.1-schnell (free, ~2,000 images/day)
+- **Images**: Cloudflare Workers AI — FLUX.1-schnell (free, ~2,000 images/day)
 - **Email delivery**: Resend API (free tier, 100 emails/day)
 - **Hosting**: Vercel (free tier — static site + serverless functions)
 - **Fonts**: Google Fonts — Inter + Playfair Display
@@ -15,7 +15,7 @@ A minimal website where users enter their email and instantly receive an AI-gene
 index.html                — Minimal landing page with email form
 css/style.css             — Dark theme styles
 js/script.js              — Form submission + API call
-api/send-inspiration.js   — Vercel serverless function (picks prompt, generates AI image, sends email)
+api/send-inspiration.js   — Vercel serverless function (picks prompt, generates image, sends email)
 data/inspirations.json    — 5 categories, 40 prompts, 60 words (reference data)
 vercel.json               — Vercel routing config
 scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
@@ -26,8 +26,8 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 1. User enters email on the site
 2. Frontend POSTs to `/api/send-inspiration`
 3. Serverless function picks a random creative prompt + evocative word
-4. Generates an AI image via Cloudflare Workers AI (FLUX.1-schnell)
-5. Sends a styled HTML email via Resend with the AI image embedded
+4. Generates a unique image via Cloudflare Workers AI (FLUX.1-schnell)
+5. Sends a styled HTML email via Resend with the image embedded
 6. User receives inspiration in their inbox within seconds
 
 ## Setup (all free)
@@ -45,7 +45,7 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 | Service | Purpose | Free Tier |
 |---------|---------|-----------|
 | Vercel | Hosting + serverless API | 100GB bandwidth, 100K function invocations/month |
-| Cloudflare Workers AI | AI image generation (FLUX.1-schnell) | ~2,000 images/day, no credit card |
+| Cloudflare Workers AI | Image generation (FLUX.1-schnell) | ~2,000 images/day, no credit card |
 | Resend | Email delivery | 100 emails/day, 3,000/month |
 | Google Fonts | Typography | Unlimited |
 
