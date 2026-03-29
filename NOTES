@@ -1,0 +1,37 @@
+# INSPO — Tools & Services
+
+## Current Stack (all free)
+
+### Hosting & Deployment
+- **Vercel** — Static site + serverless functions (free: 100GB bandwidth, 100K invocations/month)
+  https://vercel.com
+
+### AI Image Generation
+- **Pollinations.ai** — AI-generated images from text prompts (free, no API key, unlimited)
+  https://pollinations.ai
+
+### Email Delivery
+- **Resend** — Transactional email API (free: 100 emails/day, 3,000/month)
+  https://resend.com
+
+### Fonts
+- **Google Fonts** — Inter + Playfair Display (free, unlimited)
+  https://fonts.google.com
+
+### Source Control
+- **GitHub** — Code hosting + version control (free)
+  https://github.com
+
+## Keys / Env Vars Needed
+- `RESEND_API_KEY` — from https://resend.com (add in Vercel dashboard)
+- `FROM_EMAIL` — (optional) defaults to `INSPO <onboarding@resend.dev>`
+
+## Repository
+- https://github.com/MH-787b/INSPO.git
+
+## Retired / No Longer Used
+- ~~GitHub Pages~~ — replaced by Vercel
+- ~~Lorem Picsum~~ — replaced by Pollinations.ai
+- ~~Formspree~~ — replaced by direct Resend API via serverless function
+- ~~GitHub Actions cron~~ — legacy daily email (still in repo, not active)
+- ~~Web Audio API~~ — removed in site simplification

@@ -3,92 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>INSPO — Daily Inspiration for Artists</title>
-  <meta name="description" content="Get inspired with random images, creative prompts, evocative words, and ambient sounds. Free daily inspiration for artists.">
+  <title>INSPO — AI Inspiration for Artists</title>
+  <meta name="description" content="Enter your email and get an AI-generated image for creative inspiration. Free, instant, beautiful.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Loading -->
-  <div class="loading-screen">
-    <div class="loader"></div>
-  </div>
-
-  <!-- Header -->
-  <header class="header">
-    <a href="/" class="logo">INSPO<span>.</span></a>
-    <div class="header-actions">
-      <button class="btn--icon btn" id="sound-btn" title="Toggle ambient sound" aria-label="Toggle sound">
-        <span class="sound-indicator">
-          <span style="height:3px"></span>
-          <span style="height:6px"></span>
-          <span style="height:3px"></span>
-        </span>
-      </button>
-      <a href="#subscribe" class="btn">Subscribe</a>
-    </div>
-  </header>
-
-  <!-- Main Inspiration -->
-  <main class="inspiration">
-    <div class="inspiration__bg">
-      <img src="" alt="Inspiration background" />
+  <main class="container">
+    <div class="brand">
+      <h1 class="logo">INSPO<span>.</span></h1>
+      <p class="tagline">AI-generated inspiration, straight to your inbox.</p>
     </div>
 
-    <!-- Category Filter -->
-    <nav class="categories" aria-label="Inspiration categories"></nav>
+    <form class="form" id="inspo-form">
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+        autocomplete="email"
+        class="input"
+      />
+      <button type="submit" class="btn">Send me inspiration</button>
+    </form>
 
-    <!-- Content -->
-    <div class="inspiration__content">
-      <span class="inspiration__category"></span>
-      <h1 class="inspiration__prompt"></h1>
-      <p class="inspiration__word"></p>
+    <div class="message" id="message"></div>
 
-      <div class="inspiration__actions">
-        <button class="btn btn--primary" id="inspire-btn">
-          Inspire Me
-        </button>
-        <button class="btn" onclick="navigator.share?.({title:'INSPO', text: document.querySelector('.inspiration__prompt').textContent, url: location.href}).catch(()=>{})">
-          Share
-        </button>
-      </div>
-    </div>
+    <p class="fine-print">Free. No spam. Just one AI-generated image to spark your creativity.</p>
   </main>
 
-  <!-- Subscribe -->
-  <section class="subscribe" id="subscribe">
-    <div class="subscribe__inner">
-      <h2>Daily Inspiration</h2>
-      <p>Get a creative prompt, image, and word delivered to your inbox every morning.</p>
-
-      <!-- To activate: sign up at https://formspree.io (free), create a form, replace YOUR_FORM_ID below -->
-      <form class="subscribe-form" id="subscribe-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <input type="email" name="email" placeholder="Your email address" required autocomplete="email" />
-        <select name="category" required>
-          <option value="" disabled selected>Choose a category</option>
-          <option value="all">All categories (surprise me)</option>
-          <option value="color-light">Color & Light</option>
-          <option value="texture-form">Texture & Form</option>
-          <option value="emotion-mood">Emotion & Mood</option>
-          <option value="nature-elements">Nature & Elements</option>
-          <option value="movement-energy">Movement & Energy</option>
-        </select>
-        <button type="submit" class="btn btn--primary">Subscribe — it's free</button>
-      </form>
-
-      <div class="subscribe__success">
-        You're in! Watch your inbox for daily inspiration starting tomorrow.
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>INSPO — Free inspiration for artists. Press <kbd>Space</kbd> for a new prompt.</p>
-  </footer>
-
-  <script src="js/audio.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

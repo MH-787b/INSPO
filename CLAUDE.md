@@ -1,51 +1,58 @@
-# INSPO — Daily Inspiration for Artists
+# INSPO — AI Inspiration for Artists
 
 ## Overview
-A free static website that generates creative inspiration via random images, prompts, evocative words, and ambient sounds. Includes a daily email pipeline for subscribers.
+A minimal website where users enter their email and instantly receive an AI-generated image with a creative prompt. Everything is free.
 
 ## Tech Stack
 - **Frontend**: Vanilla HTML/CSS/JS (no framework, no build step)
-- **Images**: Lorem Picsum (free, no API key)
-- **Audio**: Web Audio API (generated ambient sounds, no audio files)
-- **Fonts**: Google Fonts — Inter + Playfair Display
-- **Hosting**: GitHub Pages (free)
-- **Subscribe form**: Formspree (free tier, 50 submissions/month)
+- **AI Images**: Pollinations.ai (free, no API key)
 - **Email delivery**: Resend API (free tier, 100 emails/day)
-- **Email scheduler**: GitHub Actions cron (daily at 7am UTC)
+- **Hosting**: Vercel (free tier — static site + serverless functions)
+- **Fonts**: Google Fonts — Inter + Playfair Display
 
 ## Project Structure
 ```
-index.html              — Main single-page site
-css/style.css           — All styles (dark minimal theme)
-js/script.js            — Inspiration engine, category filtering, subscribe form
-js/audio.js             — Web Audio API ambient sound generator (5 sound types)
-data/inspirations.json  — 5 categories, 40 prompts, 60 words
-data/subscribers.json   — Subscriber list for daily emails
-scripts/send-daily-email.js — Builds HTML email + sends via Resend
-.github/workflows/daily-email.yml — GitHub Actions daily cron job
+index.html                — Minimal landing page with email form
+css/style.css             — Dark theme styles
+js/script.js              — Form submission + API call
+api/send-inspiration.js   — Vercel serverless function (picks prompt, generates AI image, sends email)
+data/inspirations.json    — 5 categories, 40 prompts, 60 words (reference data)
+vercel.json               — Vercel routing config
+scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
+.github/workflows/daily-email.yml — (Legacy) daily cron job
 ```
 
+## How It Works
+1. User enters email on the site
+2. Frontend POSTs to `/api/send-inspiration`
+3. Serverless function picks a random creative prompt + evocative word
+4. Builds an AI image URL via Pollinations.ai (prompt-based, no API key)
+5. Sends a styled HTML email via Resend with the AI image embedded
+6. User receives inspiration in their inbox within seconds
+
+## Setup (all free)
+1. **Resend**: Sign up at https://resend.com → get API key
+2. **Vercel**: Sign up at https://vercel.com → import GitHub repo
+3. **Environment variable**: In Vercel dashboard → Settings → Environment Variables → add:
+   - `RESEND_API_KEY` = your Resend API key
+   - `FROM_EMAIL` = (optional) custom from address, defaults to `INSPO <onboarding@resend.dev>`
+4. **Deploy**: Vercel auto-deploys on push to main
+
+## Services Used (all free tier)
+| Service | Purpose | Free Tier |
+|---------|---------|-----------|
+| Vercel | Hosting + serverless API | 100GB bandwidth, 100K function invocations/month |
+| Pollinations.ai | AI image generation | Unlimited, no API key |
+| Resend | Email delivery | 100 emails/day, 3,000/month |
+| Google Fonts | Typography | Unlimited |
+
 ## Inspiration Categories
-1. **Color & Light** — sound: warm drone
-2. **Texture & Form** — sound: filtered noise texture
-3. **Emotion & Mood** — sound: gentle random melody
-4. **Nature & Elements** — sound: wind/rain
-5. **Movement & Energy** — sound: rhythmic pulses
-
-## Setup Checklist
-1. **Formspree**: Sign up at https://formspree.io → create form → replace `YOUR_FORM_ID` in `index.html`
-2. **Resend**: Sign up at https://resend.com → get API key → add as GitHub secret `RESEND_API_KEY`
-3. **GitHub Pages**: Repo Settings → Pages → Source: main branch
-4. **Subscribers**: Edit `data/subscribers.json` (manually sync from Formspree submissions for now)
-5. **Site URL**: Update `https://YOUR_SITE_URL` in `scripts/send-daily-email.js` once Pages is live
-
-## Key Behaviors
-- Press **Space** or click **Inspire Me** to generate new inspiration
-- Category pills filter to a specific category; "All" picks randomly
-- Sound toggle plays a generative ambient sound matching the current category
-- Subscribe form POSTs to Formspree; shows success message on completion
-- Daily email workflow can be manually triggered via GitHub Actions "workflow_dispatch"
+1. **Color & Light** — luminance, chiaroscuro, prismatic...
+2. **Texture & Form** — tessellate, crystalline, fractal...
+3. **Emotion & Mood** — saudade, ephemeral, reverie...
+4. **Nature & Elements** — petrichor, bioluminescent, aurora...
+5. **Movement & Energy** — kinetic, entropy, crescendo...
 
 ## Repository
 - **Remote**: https://github.com/MH-787b/INSPO.git
-- **Hosting**: GitHub Pages (once enabled)
+- **Hosting**: Vercel (connected to GitHub repo)
