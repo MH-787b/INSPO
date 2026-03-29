@@ -136,6 +136,12 @@ ${inspo.word}
 artinspo.co.uk — free inspiration for artists.`;
 }
 
+// ── Config ──
+
+module.exports.config = {
+  maxDuration: 60
+};
+
 // ── Handler ──
 
 module.exports = async function handler(req, res) {
