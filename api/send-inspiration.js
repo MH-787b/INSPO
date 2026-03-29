@@ -9,36 +9,45 @@
  */
 
 const PROMPTS = [
-  { prompt: "What color is silence?", word: "luminance", icon: "🎨", category: "Color & Light" },
-  { prompt: "Paint the space between shadows", word: "chiaroscuro", icon: "🎨", category: "Color & Light" },
-  { prompt: "What would sunset look like on another planet?", word: "prismatic", icon: "🎨", category: "Color & Light" },
-  { prompt: "Capture light as it bends through glass", word: "refraction", icon: "🎨", category: "Color & Light" },
-  { prompt: "Draw a sound you heard today", word: "tessellate", icon: "🪨", category: "Texture & Form" },
-  { prompt: "Sculpt something that can't exist in gravity", word: "crystalline", icon: "🪨", category: "Texture & Form" },
-  { prompt: "What shape is your current mood?", word: "amorphous", icon: "🪨", category: "Texture & Form" },
-  { prompt: "Find pattern in something chaotic", word: "fractal", icon: "🪨", category: "Texture & Form" },
-  { prompt: "Create something that feels like nostalgia", word: "saudade", icon: "💭", category: "Emotion & Mood" },
-  { prompt: "What does joy look like at 3am?", word: "ephemeral", icon: "💭", category: "Emotion & Mood" },
-  { prompt: "Draw the last dream you remember", word: "reverie", icon: "💭", category: "Emotion & Mood" },
-  { prompt: "Express the pause between breaths", word: "catharsis", icon: "💭", category: "Emotion & Mood" },
-  { prompt: "Draw what the wind is carrying today", word: "tempest", icon: "🌿", category: "Nature & Elements" },
-  { prompt: "Capture the exact moment before rain", word: "petrichor", icon: "🌿", category: "Nature & Elements" },
-  { prompt: "What does the ocean floor dream about?", word: "bioluminescent", icon: "🌿", category: "Nature & Elements" },
-  { prompt: "Draw fire in slow motion", word: "metamorphic", icon: "🌿", category: "Nature & Elements" },
-  { prompt: "Capture motion without showing the moving thing", word: "kinetic", icon: "⚡", category: "Movement & Energy" },
-  { prompt: "What does acceleration look like?", word: "momentum", icon: "⚡", category: "Movement & Energy" },
-  { prompt: "Draw something falling apart beautifully", word: "entropy", icon: "⚡", category: "Movement & Energy" },
-  { prompt: "What would music look like if you could see it?", word: "crescendo", icon: "⚡", category: "Movement & Energy" },
+  // Scenes & stories — open to interpretation across all art forms
+  { prompt: "A stranger left this on a park bench. What's the story?", word: "remnant", icon: "📖", category: "Story", scene: "a worn leather journal lying open on a park bench, autumn leaves scattered around, golden hour light" },
+  { prompt: "This is the last thing she saw before she disappeared.", word: "vanish", icon: "📖", category: "Story", scene: "a half-open door at the end of a long hallway, light spilling through, an empty pair of shoes by the threshold" },
+  { prompt: "He built this for someone who never came.", word: "waiting", icon: "📖", category: "Story", scene: "a small handmade wooden table set for two on a cliff overlooking the sea, wildflowers in a jar, one chair pushed back" },
+  { prompt: "Write what this room remembers.", word: "echo", icon: "📖", category: "Story", scene: "an abandoned ballroom with dust in the air, a single chandelier still lit, sheet music scattered on the floor" },
+
+  // People & emotion — for portrait, poetry, music, character study
+  { prompt: "What is this person about to say?", word: "threshold", icon: "🎭", category: "Emotion", scene: "close-up of an elderly person's weathered hands holding a sealed envelope, soft window light" },
+  { prompt: "This is what courage looks like at 4am.", word: "resolve", icon: "🎭", category: "Emotion", scene: "a lone figure standing at the edge of a rooftop garden at dawn, city lights below, looking toward the horizon" },
+  { prompt: "She hasn't smiled like this in years.", word: "release", icon: "🎭", category: "Emotion", scene: "a woman dancing alone in her kitchen, bare feet on tile, morning light streaming through curtains, eyes closed" },
+  { prompt: "Two people who will never meet again.", word: "farewell", icon: "🎭", category: "Emotion", scene: "two silhouettes walking in opposite directions on a rain-soaked street, reflections on wet pavement, street lamps glowing" },
+
+  // Places — for landscape, poetry, worldbuilding, songwriting
+  { prompt: "What happened here?", word: "aftermath", icon: "🌍", category: "Place", scene: "an overgrown greenhouse with broken glass, tropical plants reclaiming the space, soft fog rolling in" },
+  { prompt: "Nobody knows this place exists.", word: "hidden", icon: "🌍", category: "Place", scene: "a narrow stone staircase descending into a cave with bioluminescent blue water, ancient carvings on the walls" },
+  { prompt: "This is where the sound is coming from.", word: "source", icon: "🌍", category: "Place", scene: "a dense misty forest with a clearing, a single standing stone covered in moss, shafts of light breaking through" },
+  { prompt: "Someone once called this place home.", word: "belonging", icon: "🌍", category: "Place", scene: "a weathered fishing boat resting on a pebble beach, a small cottage with smoke rising from the chimney, dusk" },
+
+  // Objects & details — for still life, poetry, songwriting, sketching
+  { prompt: "This was found in a coat pocket. Tell its story.", word: "artifact", icon: "🔍", category: "Detail", scene: "a crumpled handwritten note next to a vintage key and a dried pressed flower on a dark wooden surface" },
+  { prompt: "What song does this instrument want to play?", word: "longing", icon: "🔍", category: "Detail", scene: "a dusty violin resting on a velvet chair by a window, afternoon light catching the strings, sheet music nearby" },
+  { prompt: "Someone left in a hurry. What were they running from?", word: "urgency", icon: "🔍", category: "Detail", scene: "an open suitcase on a bed with clothes spilling out, a clock showing 3am, curtains blowing from an open window" },
+  { prompt: "This has been here longer than anyone remembers.", word: "ancient", icon: "🔍", category: "Detail", scene: "a massive twisted oak tree in a field, roots exposed, carvings in the bark, storm clouds gathering behind" },
+
+  // Nature & wonder — for any art form
+  { prompt: "Something is about to change.", word: "shift", icon: "✨", category: "Wonder", scene: "the exact moment between sunset and night, a flock of birds changing direction mid-flight over a still lake" },
+  { prompt: "This only happens once a year.", word: "rare", icon: "✨", category: "Wonder", scene: "thousands of lanterns floating into a dark sky above a river, their reflections doubling the light" },
+  { prompt: "The tide brought this in overnight.", word: "gift", icon: "✨", category: "Wonder", scene: "a strange beautiful piece of driftwood shaped like a hand reaching up from the sand, morning mist, calm sea" },
+  { prompt: "Look closer. There's something living in there.", word: "micro", icon: "✨", category: "Wonder", scene: "extreme close-up of a rain droplet on a leaf, a tiny world reflected and refracted inside it, vivid greens" },
 ];
 
-// Build an artistic image prompt from the inspiration
+// Build an image prompt from the scene description
 function buildImagePrompt(inspo) {
-  return `abstract fine art painting, ${inspo.word}, ${inspo.category}, soft colors, elegant composition, gallery artwork, high quality`;
+  return `${inspo.scene}, cinematic photography, atmospheric, high quality, detailed`;
 }
 
 // Safe fallback prompt if the primary gets filtered
 function buildFallbackPrompt() {
-  return 'abstract fine art painting, soft colors, flowing shapes, elegant composition, gallery artwork, high quality';
+  return 'a quiet landscape at golden hour, soft light, cinematic photography, atmospheric, high quality';
 }
 
 // Generate image via Cloudflare Workers AI (FLUX.1-schnell)

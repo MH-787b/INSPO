@@ -50,11 +50,11 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 | Google Fonts | Typography | Unlimited |
 
 ## Inspiration Categories
-1. **Color & Light** — luminance, chiaroscuro, prismatic...
-2. **Texture & Form** — tessellate, crystalline, fractal...
-3. **Emotion & Mood** — saudade, ephemeral, reverie...
-4. **Nature & Elements** — petrichor, bioluminescent, aurora...
-5. **Movement & Energy** — kinetic, entropy, crescendo...
+1. **Story** — narrative scenes to interpret through any medium
+2. **Emotion** — human moments for portrait, poetry, music, character study
+3. **Place** — locations for landscape, worldbuilding, songwriting
+4. **Detail** — objects and close-ups for still life, poetry, sketching
+5. **Wonder** — natural phenomena for any art form
 
 ## Repository
 - **Remote**: https://github.com/MH-787b/INSPO.git
