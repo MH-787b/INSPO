@@ -2,10 +2,10 @@
  * Vercel Serverless Function: /api/send-inspiration
  *
  * Receives an email, picks a random creative prompt,
- * generates an AI image via Pollinations.ai, and sends
- * a styled email via Resend.
+ * generates an AI image via Cloudflare Workers AI (FLUX.1-schnell),
+ * and sends a styled email via Resend.
  *
- * Env vars required: RESEND_API_KEY
+ * Env vars required: RESEND_API_KEY, CF_API_TOKEN, CF_ACCOUNT_ID
  */
 
 const PROMPTS = [
@@ -36,15 +36,39 @@ function buildImagePrompt(inspo) {
   return `artistic inspiration, ${inspo.prompt}, ${inspo.word}, beautiful abstract art, evocative, cinematic lighting, high quality`;
 }
 
-// Build Pollinations.ai image URL
-function getImageUrl(inspo) {
-  const prompt = encodeURIComponent(buildImagePrompt(inspo));
-  const seed = Math.floor(Math.random() * 100000);
-  return `https://image.pollinations.ai/prompt/${prompt}?width=800&height=600&seed=${seed}&nologo=true`;
+// Generate image via Cloudflare Workers AI (FLUX.1-schnell)
+// Returns base64 image data
+async function generateImage(inspo) {
+  const cfToken = process.env.CF_API_TOKEN;
+  const cfAccount = process.env.CF_ACCOUNT_ID;
+
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${cfAccount}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: buildImagePrompt(inspo),
+        steps: 4
+      })
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Cloudflare AI error ${res.status}: ${err}`);
+  }
+
+  const data = await res.json();
+  return data.result.image; // base64 encoded
 }
 
-// Build the HTML email
-function buildEmail(inspo, imageUrl) {
+// Build the HTML email with inline base64 image
+function buildEmail(inspo, imageBase64) {
+  const imgSrc = `data:image/png;base64,${imageBase64}`;
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +85,7 @@ function buildEmail(inspo, imageUrl) {
     </div>
 
     <div style="margin-bottom:32px;border-radius:8px;overflow:hidden;">
-      <img src="${imageUrl}" alt="AI-generated inspiration" style="width:100%;height:auto;display:block;" />
+      <img src="${imgSrc}" alt="AI-generated inspiration" style="width:100%;height:auto;display:block;" />
     </div>
 
     <div style="text-align:center;margin-bottom:16px;">
@@ -111,36 +135,53 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Please enter a valid email address.' });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'Email service not configured.' });
+  const resendKey = process.env.RESEND_API_KEY;
+  const cfToken = process.env.CF_API_TOKEN;
+  const cfAccount = process.env.CF_ACCOUNT_ID;
+
+  if (!resendKey || !cfToken || !cfAccount) {
+    return res.status(500).json({ error: 'Server not fully configured.' });
   }
 
   // Pick a random inspiration
   const inspo = PROMPTS[Math.floor(Math.random() * PROMPTS.length)];
-  const imageUrl = getImageUrl(inspo);
-  const html = buildEmail(inspo, imageUrl);
 
-  // Send via Resend
+  // Generate AI image
+  let imageBase64;
+  try {
+    imageBase64 = await generateImage(inspo);
+  } catch (err) {
+    console.error('Image generation error:', err.message);
+    return res.status(502).json({ error: `Image generation failed: ${err.message}` });
+  }
+
+  // Send email via Resend with inline image attachment
   try {
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${resendKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         from: process.env.FROM_EMAIL || 'INSPO <onboarding@resend.dev>',
         to: [email],
         subject: `${inspo.icon} ${inspo.prompt}`,
-        html
+        attachments: [
+          {
+            filename: 'inspiration.png',
+            content: imageBase64,
+            content_type: 'image/png'
+          }
+        ],
+        html: buildEmail(inspo, imageBase64)
       })
     });
 
     if (!resendRes.ok) {
       const errBody = await resendRes.text();
       console.error('Resend error:', resendRes.status, errBody);
-      return res.status(502).json({ error: `Resend error: ${errBody}` });
+      return res.status(502).json({ error: `Email error: ${errBody}` });
     }
 
     return res.status(200).json({ ok: true, prompt: inspo.prompt });

@@ -7,8 +7,8 @@
   https://vercel.com
 
 ### AI Image Generation
-- **Pollinations.ai** — AI-generated images from text prompts (free, no API key, unlimited)
-  https://pollinations.ai
+- **Cloudflare Workers AI** — FLUX.1-schnell model (free: ~2,000 images/day, no credit card)
+  https://cloudflare.com
 
 ### Email Delivery
 - **Resend** — Transactional email API (free: 100 emails/day, 3,000/month)
@@ -24,6 +24,8 @@
 
 ## Keys / Env Vars Needed
 - `RESEND_API_KEY` — from https://resend.com (add in Vercel dashboard)
+- `CF_API_TOKEN` — from https://cloudflare.com (Account → API Tokens)
+- `CF_ACCOUNT_ID` — from Cloudflare dashboard sidebar
 - `FROM_EMAIL` — (optional) defaults to `INSPO <onboarding@resend.dev>`
 
 ## Repository
@@ -31,7 +33,8 @@
 
 ## Retired / No Longer Used
 - ~~GitHub Pages~~ — replaced by Vercel
-- ~~Lorem Picsum~~ — replaced by Pollinations.ai
+- ~~Lorem Picsum~~ — replaced by Cloudflare Workers AI
+- ~~Pollinations.ai~~ — now requires paid API key
 - ~~Formspree~~ — replaced by direct Resend API via serverless function
 - ~~GitHub Actions cron~~ — legacy daily email (still in repo, not active)
 - ~~Web Audio API~~ — removed in site simplification
