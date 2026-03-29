@@ -25,18 +25,23 @@
         body: JSON.stringify({ email })
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
 
       if (res.ok) {
         messageEl.textContent = 'Check your inbox — your AI inspiration is on its way!';
         messageEl.className = 'message success';
         form.reset();
       } else {
-        messageEl.textContent = data.error || 'Something went wrong. Try again.';
+        messageEl.textContent = data.error || 'Something went wrong (' + res.status + '). Try again.';
         messageEl.className = 'message error';
       }
-    } catch {
-      messageEl.textContent = 'Network error. Please try again.';
+    } catch (err) {
+      messageEl.textContent = 'Error: ' + err.message;
       messageEl.className = 'message error';
     }
 
