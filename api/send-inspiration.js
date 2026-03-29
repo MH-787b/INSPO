@@ -33,37 +33,47 @@ const PROMPTS = [
 
 // Build an artistic image prompt from the inspiration
 function buildImagePrompt(inspo) {
-  return `artistic inspiration, ${inspo.prompt}, ${inspo.word}, beautiful abstract art, evocative, cinematic lighting, high quality`;
+  return `abstract fine art painting, ${inspo.word}, ${inspo.category}, soft colors, elegant composition, gallery artwork, high quality`;
+}
+
+// Safe fallback prompt if the primary gets filtered
+function buildFallbackPrompt() {
+  return 'abstract fine art painting, soft colors, flowing shapes, elegant composition, gallery artwork, high quality';
 }
 
 // Generate image via Cloudflare Workers AI (FLUX.1-schnell)
-// Returns base64 image data
+// Returns base64 image data. Falls back to safe prompt if content filter triggers.
 async function generateImage(inspo) {
   const cfToken = process.env.CF_API_TOKEN;
   const cfAccount = process.env.CF_ACCOUNT_ID;
+  const url = `https://api.cloudflare.com/client/v4/accounts/${cfAccount}/ai/run/@cf/black-forest-labs/flux-1-schnell`;
+  const headers = {
+    'Authorization': `Bearer ${cfToken}`,
+    'Content-Type': 'application/json'
+  };
 
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${cfAccount}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
-    {
+  // Try primary prompt, fall back to safe prompt if filtered
+  const prompts = [buildImagePrompt(inspo), buildFallbackPrompt()];
+
+  for (const prompt of prompts) {
+    const res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${cfToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: buildImagePrompt(inspo),
-        steps: 4
-      })
-    }
-  );
+      headers,
+      body: JSON.stringify({ prompt, steps: 4 })
+    });
 
-  if (!res.ok) {
+    if (res.ok) {
+      const data = await res.json();
+      return data.result.image;
+    }
+
     const err = await res.text();
+    // If content filter, try next prompt
+    if (res.status === 400 && err.includes('NSFW')) continue;
     throw new Error(`Cloudflare AI error ${res.status}: ${err}`);
   }
 
-  const data = await res.json();
-  return data.result.image; // base64 encoded
+  throw new Error('Image generation blocked by content filter');
 }
 
 // Build the HTML email — image referenced via cid: for better deliverability
