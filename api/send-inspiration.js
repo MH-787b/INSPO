@@ -15,11 +15,11 @@ const PROMPTS = [
   { prompt: "He built this for someone who never came.", word: "waiting", icon: "📖", category: "Story", scene: "a small handmade wooden table set for two on a cliff overlooking the sea, wildflowers in a jar, one chair pushed back" },
   { prompt: "Write what this room remembers.", word: "echo", icon: "📖", category: "Story", scene: "an abandoned ballroom with dust in the air, a single chandelier still lit, sheet music scattered on the floor" },
 
-  // People & emotion — for portrait, poetry, music, character study
-  { prompt: "What is this person about to say?", word: "threshold", icon: "🎭", category: "Emotion", scene: "close-up of an elderly person's weathered hands holding a sealed envelope, soft window light" },
-  { prompt: "This is what courage looks like at 4am.", word: "resolve", icon: "🎭", category: "Emotion", scene: "a lone figure standing at the edge of a rooftop garden at dawn, city lights below, looking toward the horizon" },
-  { prompt: "She hasn't smiled like this in years.", word: "release", icon: "🎭", category: "Emotion", scene: "a woman dancing alone in her kitchen, bare feet on tile, morning light streaming through curtains, eyes closed" },
-  { prompt: "Two people who will never meet again.", word: "farewell", icon: "🎭", category: "Emotion", scene: "two silhouettes walking in opposite directions on a rain-soaked street, reflections on wet pavement, street lamps glowing" },
+  // Emotion — traces of human presence, no people shown
+  { prompt: "What is this person about to say?", word: "threshold", icon: "🎭", category: "Emotion", scene: "a sealed envelope resting on a windowsill, weathered hands' imprint in dust beside it, soft window light" },
+  { prompt: "This is what courage looks like at 4am.", word: "resolve", icon: "🎭", category: "Emotion", scene: "a rooftop garden at dawn, a single coffee cup still steaming on the ledge, city lights below, first light on the horizon" },
+  { prompt: "She hasn't smiled like this in years.", word: "release", icon: "🎭", category: "Emotion", scene: "bare footprints on a kitchen tile floor, morning light streaming through curtains, a record player spinning" },
+  { prompt: "Two people who will never meet again.", word: "farewell", icon: "🎭", category: "Emotion", scene: "two umbrellas abandoned on opposite ends of a rain-soaked bench, reflections on wet pavement, street lamps glowing" },
 
   // Places — for landscape, poetry, worldbuilding, songwriting
   { prompt: "What happened here?", word: "aftermath", icon: "🌍", category: "Place", scene: "an overgrown greenhouse with broken glass, tropical plants reclaiming the space, soft fog rolling in" },
@@ -42,12 +42,12 @@ const PROMPTS = [
 
 // Build an image prompt from the scene description
 function buildImagePrompt(inspo) {
-  return `${inspo.scene}, cinematic photography, atmospheric, high quality, detailed`;
+  return `${inspo.scene}, no people, no faces, no figures, cinematic photography, atmospheric, high quality, detailed`;
 }
 
 // Safe fallback prompt if the primary gets filtered
 function buildFallbackPrompt() {
-  return 'a quiet landscape at golden hour, soft light, cinematic photography, atmospheric, high quality';
+  return 'a quiet landscape at golden hour, no people, soft light, cinematic photography, atmospheric, high quality';
 }
 
 // Generate image via Cloudflare Workers AI (FLUX.1-schnell)
