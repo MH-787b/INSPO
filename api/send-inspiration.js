@@ -140,7 +140,7 @@ module.exports = async function handler(req, res) {
     if (!resendRes.ok) {
       const errBody = await resendRes.text();
       console.error('Resend error:', resendRes.status, errBody);
-      return res.status(502).json({ error: 'Failed to send email. Try again.' });
+      return res.status(502).json({ error: `Resend error: ${errBody}` });
     }
 
     return res.status(200).json({ ok: true, prompt: inspo.prompt });
