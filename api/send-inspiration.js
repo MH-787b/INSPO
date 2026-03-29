@@ -2,7 +2,7 @@
  * Vercel Serverless Function: /api/send-inspiration
  *
  * Receives an email, picks a random creative prompt,
- * generates an AI image via Cloudflare Workers AI (FLUX.1-schnell),
+ * generates an image via Cloudflare Workers AI (FLUX.1-schnell),
  * and sends a styled email via Resend.
  *
  * Env vars required: RESEND_API_KEY, CF_API_TOKEN, CF_ACCOUNT_ID
@@ -66,9 +66,8 @@ async function generateImage(inspo) {
   return data.result.image; // base64 encoded
 }
 
-// Build the HTML email with inline base64 image
-function buildEmail(inspo, imageBase64) {
-  const imgSrc = `data:image/png;base64,${imageBase64}`;
+// Build the HTML email — image referenced via cid: for better deliverability
+function buildEmail(inspo) {
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -80,12 +79,12 @@ function buildEmail(inspo, imageBase64) {
 
     <div style="text-align:center;margin-bottom:40px;">
       <span style="font-size:24px;font-weight:bold;color:#f5f5f0;letter-spacing:0.02em;">
-        INSPO<span style="color:#c4a87c;">.</span>
+        <span style="color:#c4a87c;">art</span>inspo<span style="color:#c4a87c;">.</span>
       </span>
     </div>
 
     <div style="margin-bottom:32px;border-radius:8px;overflow:hidden;">
-      <img src="${imgSrc}" alt="Inspiration" style="width:100%;height:auto;display:block;" />
+      <img src="cid:inspiration" alt="Your creative inspiration" style="width:100%;height:auto;display:block;" />
     </div>
 
     <div style="text-align:center;margin-bottom:16px;">
@@ -104,13 +103,27 @@ function buildEmail(inspo, imageBase64) {
 
     <div style="text-align:center;border-top:1px solid #222;padding-top:20px;">
       <p style="font-size:12px;font-family:Arial,sans-serif;color:#666;margin:0;">
-        INSPO — free inspiration for artists.
+        artinspo.co.uk — free inspiration for artists.
       </p>
     </div>
 
   </div>
 </body>
 </html>`;
+}
+
+// Build plain text version for better deliverability
+function buildPlainText(inspo) {
+  return `artinspo.
+
+${inspo.icon} ${inspo.category}
+
+"${inspo.prompt}"
+
+${inspo.word}
+
+--
+artinspo.co.uk — free inspiration for artists.`;
 }
 
 // ── Handler ──
@@ -164,17 +177,21 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: process.env.FROM_EMAIL || 'INSPO <onboarding@resend.dev>',
+        from: process.env.FROM_EMAIL || 'artinspo <onboarding@resend.dev>',
         to: [email],
         subject: `${inspo.icon} ${inspo.prompt}`,
+        headers: {
+          'List-Unsubscribe': `<mailto:${process.env.FROM_EMAIL || 'onboarding@resend.dev'}?subject=unsubscribe>`
+        },
         attachments: [
           {
             filename: 'inspiration.png',
             content: imageBase64,
-            content_type: 'image/png'
+            content_id: 'inspiration'
           }
         ],
-        html: buildEmail(inspo, imageBase64)
+        html: buildEmail(inspo),
+        text: buildPlainText(inspo)
       })
     });
 

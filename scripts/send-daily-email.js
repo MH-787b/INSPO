@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = process.env.FROM_EMAIL || 'INSPO <inspiration@resend.dev>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'artinspo <inspiration@resend.dev>';
 
 if (!RESEND_API_KEY) {
   console.error('Missing RESEND_API_KEY environment variable');
@@ -70,7 +70,7 @@ function buildEmail({ category, icon, prompt, word, imageUrl }) {
     <!-- Header -->
     <div style="text-align:center;margin-bottom:40px;">
       <span style="font-size:24px;font-weight:bold;color:#f5f5f0;letter-spacing:0.02em;">
-        INSPO<span style="color:#c4a87c;">.</span>
+        artinspo<span style="color:#c4a87c;">.</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@ function buildEmail({ category, icon, prompt, word, imageUrl }) {
     <!-- Footer -->
     <div style="text-align:center;border-top:1px solid #222;padding-top:20px;">
       <p style="font-size:12px;font-family:Arial,sans-serif;color:#666;margin:0;">
-        You're receiving this because you subscribed to INSPO daily inspiration.
+        You're receiving this because you subscribed to artinspo daily inspiration.
       </p>
     </div>
 

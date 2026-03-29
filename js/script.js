@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const form = document.getElementById('inspo-form');
+  const form = document.getElementById('artinspo-form');
   const messageEl = document.getElementById('message');
   const btn = form.querySelector('.btn');
   const btnText = 'Send me inspiration';
@@ -33,7 +33,7 @@
       }
 
       if (res.ok) {
-        messageEl.textContent = 'Check your inbox — your AI inspiration is on its way!';
+        messageEl.textContent = 'Check your inbox — your inspiration is on its way!';
         messageEl.className = 'message success';
         form.reset();
       } else {

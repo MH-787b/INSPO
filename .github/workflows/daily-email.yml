@@ -22,5 +22,5 @@ jobs:
       - name: Send daily emails
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          FROM_EMAIL: ${{ vars.FROM_EMAIL || 'INSPO <inspiration@resend.dev>' }}
+          FROM_EMAIL: ${{ vars.FROM_EMAIL || 'artinspo <inspiration@resend.dev>' }}
         run: node scripts/send-daily-email.js

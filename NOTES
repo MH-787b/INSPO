@@ -1,4 +1,4 @@
-# INSPO — Tools & Services
+# artinspo — Tools & Services
 
 ## Current Stack (all free)
 
@@ -26,7 +26,7 @@
 - `RESEND_API_KEY` — from https://resend.com (add in Vercel dashboard)
 - `CF_API_TOKEN` — from https://cloudflare.com (Account → API Tokens)
 - `CF_ACCOUNT_ID` — from Cloudflare dashboard sidebar
-- `FROM_EMAIL` — (optional) defaults to `INSPO <onboarding@resend.dev>`
+- `FROM_EMAIL` — (optional) defaults to `artinspo <onboarding@resend.dev>`
 
 ## Repository
 - https://github.com/MH-787b/INSPO.git

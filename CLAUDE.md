@@ -1,4 +1,4 @@
-# INSPO — Inspiration for Artists
+# artinspo — Inspiration for Artists
 
 ## Overview
 A minimal website where users enter their email and instantly receive a unique image with a creative prompt. Everything is free.
@@ -38,7 +38,7 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
    - `RESEND_API_KEY` = your Resend API key
    - `CF_API_TOKEN` = your Cloudflare API token
    - `CF_ACCOUNT_ID` = your Cloudflare Account ID
-   - `FROM_EMAIL` = (optional) custom from address, defaults to `INSPO <onboarding@resend.dev>`
+   - `FROM_EMAIL` = custom from address using verified domain (e.g. `artinspo <hello@artinspo.co.uk>`)
 4. **Deploy**: Vercel auto-deploys on push to main
 
 ## Services Used (all free tier)
@@ -59,3 +59,5 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 ## Repository
 - **Remote**: https://github.com/MH-787b/INSPO.git
 - **Hosting**: Vercel (connected to GitHub repo)
+- **Live site**: https://artinspo.co.uk
+- **Domain**: artinspo.co.uk (verified in Resend for email delivery)
