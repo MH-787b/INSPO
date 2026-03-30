@@ -120,6 +120,10 @@ function buildEmail(inspo) {
       ${inspo.word}
     </p>
 
+    <p style="text-align:center;font-size:14px;font-family:Georgia,'Times New Roman',serif;color:#aaa;line-height:1.6;margin:0 0 32px;">
+      Use this as a starting point for a sketch, poem, song, story, or anything you like. There are no rules — just create.
+    </p>
+
     <div style="text-align:center;border-top:1px solid #222;padding-top:20px;">
       <p style="font-size:12px;font-family:Arial,sans-serif;color:#666;margin:0;">
         artinspo.co.uk — free inspiration for artists.
@@ -135,11 +139,13 @@ function buildEmail(inspo) {
 function buildPlainText(inspo) {
   return `artinspo.
 
-${inspo.icon} ${inspo.category}
+${inspo.category}
 
 "${inspo.prompt}"
 
 ${inspo.word}
+
+Use this as a starting point for a sketch, poem, song, story, or anything you like. There are no rules — just create.
 
 --
 artinspo.co.uk — free inspiration for artists.`;
@@ -204,9 +210,11 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: process.env.FROM_EMAIL || 'artinspo <onboarding@resend.dev>',
         to: [email],
-        subject: `${inspo.icon} ${inspo.prompt}`,
+        reply_to: process.env.FROM_EMAIL || 'onboarding@resend.dev',
+        subject: `Your ${inspo.category.toLowerCase()} inspiration: ${inspo.word}`,
         headers: {
-          'List-Unsubscribe': `<mailto:${process.env.FROM_EMAIL || 'onboarding@resend.dev'}?subject=unsubscribe>`
+          'List-Unsubscribe': `<mailto:${process.env.FROM_EMAIL || 'onboarding@resend.dev'}?subject=unsubscribe>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
         },
         attachments: [
           {

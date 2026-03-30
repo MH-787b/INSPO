@@ -1,7 +1,7 @@
 # artinspo — Inspiration for Artists
 
 ## Overview
-A minimal website where users enter their email and instantly receive a unique image with a creative prompt. Everything is free.
+A minimal website where users enter their email and instantly receive a unique image with a creative prompt. Inspiration for all art forms — poetry, drawing, music, writing, etc. Everything is free.
 
 ## Tech Stack
 - **Frontend**: Vanilla HTML/CSS/JS (no framework, no build step)
@@ -25,9 +25,9 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 ## How It Works
 1. User enters email on the site
 2. Frontend POSTs to `/api/send-inspiration`
-3. Serverless function picks a random creative prompt + evocative word
-4. Generates a unique image via Cloudflare Workers AI (FLUX.1-schnell)
-5. Sends a styled HTML email via Resend with the image embedded
+3. Serverless function picks a random creative prompt + scene description
+4. Generates a unique scene image via Cloudflare Workers AI (no people/faces)
+5. Sends a styled HTML + plain text email via Resend (cid: image, List-Unsubscribe header)
 6. User receives inspiration in their inbox within seconds
 
 ## Setup (all free)
@@ -51,10 +51,16 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 
 ## Inspiration Categories
 1. **Story** — narrative scenes to interpret through any medium
-2. **Emotion** — human moments for portrait, poetry, music, character study
+2. **Emotion** — traces of human presence for portrait, poetry, music, character study
 3. **Place** — locations for landscape, worldbuilding, songwriting
 4. **Detail** — objects and close-ups for still life, poetry, sketching
 5. **Wonder** — natural phenomena for any art form
+
+## Email Deliverability
+- **DNS**: SPF (`v=spf1 include:send.resend.com ~all`), DKIM (Resend), DMARC (`p=quarantine`)
+- **Headers**: `List-Unsubscribe` (mailto) + `List-Unsubscribe-Post` (one-click, RFC 8058), `Reply-To`
+- **Content**: cid: inline image (not base64), plain text version, good text-to-image ratio
+- **Subject line**: No emojis, descriptive format (`Your {category} inspiration: {word}`)
 
 ## Repository
 - **Remote**: https://github.com/MH-787b/INSPO.git
