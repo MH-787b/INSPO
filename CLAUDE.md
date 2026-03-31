@@ -18,11 +18,12 @@ js/script.js              — Form submission + API call
 api/send-inspiration.js   — Vercel serverless function (picks prompt, generates image, sends email)
 data/inspirations.json    — 5 categories, 40 prompts, 60 words (reference data)
 vercel.json               — Vercel routing config
-scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
-.github/workflows/daily-email.yml — (Legacy) daily cron job
+scripts/send-daily-email.js — Daily email script (reads subscribers, generates inspiration, sends via Resend)
+.github/workflows/daily-email.yml — GitHub Actions cron job (runs daily at 9 AM UTC)
 ```
 
 ## How It Works
+### On-Demand (Website)
 1. User enters email on the site
 2. Frontend POSTs to `/api/send-inspiration`
 3. Serverless function picks a random creative prompt + scene description
@@ -30,16 +31,30 @@ scripts/send-daily-email.js — (Legacy) daily email script via GitHub Actions
 5. Sends a styled HTML + plain text email via Resend (cid: image, List-Unsubscribe header)
 6. User receives inspiration in their inbox within seconds
 
+### Daily Email (GitHub Actions)
+1. GitHub Actions triggers at 9 AM UTC every day
+2. Reads subscribers from `data/subscribers.json`
+3. Generates unique inspiration + image for each subscriber
+4. Sends via Resend API (batch mode)
+5. Respects Resend free tier (100 emails/day, 3,000/month)
+
 ## Setup (all free)
-1. **Resend**: Sign up at https://resend.com → get API key
-2. **Cloudflare**: Sign up at https://cloudflare.com → get API token + Account ID
-3. **Vercel**: Sign up at https://vercel.com → import GitHub repo
-4. **Environment variables**: In Vercel dashboard → Settings → Environment Variables → add:
-   - `RESEND_API_KEY` = your Resend API key
-   - `CF_API_TOKEN` = your Cloudflare API token
+
+### Vercel (On-Demand API)
+1. Sign up at https://vercel.com → import GitHub repo
+2. Environment variables in Vercel dashboard → Settings → Environment Variables:
+   - `RESEND_API_KEY` = your Resend API key (https://resend.com)
+   - `CF_API_TOKEN` = your Cloudflare API token (https://cloudflare.com)
    - `CF_ACCOUNT_ID` = your Cloudflare Account ID
-   - `FROM_EMAIL` = custom from address using verified domain (e.g. `artinspo <hello@artinspo.co.uk>`)
-4. **Deploy**: Vercel auto-deploys on push to main
+   - `FROM_EMAIL` = custom from address (e.g. `artinspo<hello@artinspo.co.uk>`)
+3. Deploy: Vercel auto-deploys on push to main
+
+### GitHub Actions (Daily Email)
+1. Add secrets to GitHub repo → Settings → Secrets and variables → Actions:
+   - `RESEND_API_KEY` = your Resend API key
+   - `FROM_EMAIL` = custom from address (e.g. `artinspo<hello@artinspo.co.uk>`)
+2. Populate `data/subscribers.json` with subscriber emails and categories
+3. Workflow runs daily at 9 AM UTC (`.github/workflows/daily-email.yml`)
 
 ## Services Used (all free tier)
 | Service | Purpose | Free Tier |

@@ -23,18 +23,29 @@
   https://github.com
 
 ## Keys / Env Vars Needed
+
+### Vercel (On-Demand API)
 - `RESEND_API_KEY` — from https://resend.com (add in Vercel dashboard)
 - `CF_API_TOKEN` — from https://cloudflare.com (Account → API Tokens)
 - `CF_ACCOUNT_ID` — from Cloudflare dashboard sidebar
-- `FROM_EMAIL` — (optional) defaults to `artinspo <onboarding@resend.dev>`
+- `FROM_EMAIL` — custom from address (e.g. `artinspo<hello@artinspo.co.uk>`)
+
+### GitHub Actions (Daily Email)
+- `RESEND_API_KEY` — from https://resend.com (add in GitHub Secrets)
+- `FROM_EMAIL` — custom from address (add in GitHub Secrets)
 
 ## Repository
 - https://github.com/MH-787b/INSPO.git
+
+## Daily Email System (Active as of Mar 31, 2026)
+- Runs at **9 AM UTC daily** via GitHub Actions
+- Reads subscribers from `data/subscribers.json`
+- Generates unique image + prompt for each subscriber
+- Sends via Resend API (supports up to 100 emails/day free tier)
 
 ## Retired / No Longer Used
 - ~~GitHub Pages~~ — replaced by Vercel
 - ~~Lorem Picsum~~ — replaced by Cloudflare Workers AI
 - ~~Pollinations.ai~~ — now requires paid API key
 - ~~Formspree~~ — replaced by direct Resend API via serverless function
-- ~~GitHub Actions cron~~ — legacy daily email (still in repo, not active)
 - ~~Web Audio API~~ — removed in site simplification
