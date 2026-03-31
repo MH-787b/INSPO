@@ -2,8 +2,8 @@ name: Daily Inspiration Email
 
 on:
   schedule:
-    # Runs every day at 7:00 AM UTC
-    - cron: '0 7 * * *'
+    # Runs every day at 9:00 AM UTC
+    - cron: '0 9 * * *'
   workflow_dispatch: # Allow manual trigger for testing
 
 jobs:
@@ -22,5 +22,5 @@ jobs:
       - name: Send daily emails
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          FROM_EMAIL: ${{ vars.FROM_EMAIL || 'artinspo <inspiration@resend.dev>' }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
         run: node scripts/send-daily-email.js
