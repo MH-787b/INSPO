@@ -13,7 +13,7 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_AUDIENCE_ID = process.env.RESEND_AUDIENCE_ID;
 const CF_API_TOKEN = process.env.CF_API_TOKEN;
 const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
-const FROM_EMAIL = process.env.FROM_EMAIL || 'artinspo <inspiration@resend.dev>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'artinspo <onboarding@resend.dev>';
 
 if (!RESEND_API_KEY) { console.error('Missing RESEND_API_KEY'); process.exit(1); }
 if (!RESEND_AUDIENCE_ID) { console.error('Missing RESEND_AUDIENCE_ID'); process.exit(1); }

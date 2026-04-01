@@ -151,15 +151,9 @@ Use this as a starting point for a sketch, poem, song, story, or anything you li
 artinspo.co.uk — free inspiration for artists.`;
 }
 
-// ── Config ──
-
-module.exports.config = {
-  maxDuration: 60
-};
-
 // ── Handler ──
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -200,6 +194,9 @@ module.exports = async function handler(req, res) {
   }
 
   // Send email via Resend with inline image attachment
+  const fromEmail = process.env.FROM_EMAIL || 'artinspo <onboarding@resend.dev>';
+  const bareEmail = fromEmail.includes('<') ? fromEmail.match(/<(.+)>/)[1] : fromEmail;
+
   try {
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -208,12 +205,12 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: process.env.FROM_EMAIL || 'artinspo <onboarding@resend.dev>',
+        from: fromEmail,
         to: [email],
-        reply_to: process.env.FROM_EMAIL || 'onboarding@resend.dev',
+        reply_to: bareEmail,
         subject: `Your ${inspo.category.toLowerCase()} inspiration: ${inspo.word}`,
         headers: {
-          'List-Unsubscribe': `<mailto:${process.env.FROM_EMAIL || 'onboarding@resend.dev'}?subject=unsubscribe>`,
+          'List-Unsubscribe': `<mailto:${bareEmail}?subject=unsubscribe>`,
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
         },
         attachments: [
@@ -253,3 +250,6 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Failed to send email. Try again.' });
   }
 }
+
+module.exports = handler;
+module.exports.config = { maxDuration: 60 };
