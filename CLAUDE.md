@@ -28,7 +28,7 @@ scripts/send-daily-email.js — Daily email script (fetches subscribers from Res
 1. User enters email on the site
 2. Frontend POSTs to `/api/send-inspiration`
 3. Serverless function picks a random creative prompt + scene description
-4. Generates a unique scene image via Cloudflare Workers AI (no people/faces)
+4. Generates a unique scene image via Cloudflare Workers AI (no people/faces/footprints)
 5. Sends a styled HTML + plain text email via Resend (cid: image, List-Unsubscribe header)
 6. Auto-adds user to Resend Audience for daily emails
 7. User receives inspiration in their inbox within seconds
