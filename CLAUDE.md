@@ -15,11 +15,12 @@ A minimal website where users enter their email and instantly receive a unique i
 index.html                — Minimal landing page with email form
 css/style.css             — Dark theme styles
 js/script.js              — Form submission + API call
-api/send-inspiration.js   — Vercel serverless function (picks prompt, generates image, sends email)
+api/send-inspiration.js   — Vercel serverless function (picks prompt, generates image, sends email, adds to Resend Audience)
 data/inspirations.json    — 5 categories, 40 prompts, 60 words (reference data)
 vercel.json               — Vercel routing config
-scripts/send-daily-email.js — Daily email script (reads subscribers, generates inspiration, sends via Resend)
+scripts/send-daily-email.js — Daily email script (fetches subscribers from Resend Audience, generates AI image, sends via Resend)
 .github/workflows/daily-email.yml — GitHub Actions cron job (runs daily at 9 AM UTC)
+.gitignore                — Excludes KEYS, .env, node_modules
 ```
 
 ## How It Works
@@ -29,13 +30,14 @@ scripts/send-daily-email.js — Daily email script (reads subscribers, generates
 3. Serverless function picks a random creative prompt + scene description
 4. Generates a unique scene image via Cloudflare Workers AI (no people/faces)
 5. Sends a styled HTML + plain text email via Resend (cid: image, List-Unsubscribe header)
-6. User receives inspiration in their inbox within seconds
+6. Auto-adds user to Resend Audience for daily emails
+7. User receives inspiration in their inbox within seconds
 
 ### Daily Email (GitHub Actions)
 1. GitHub Actions triggers at 9 AM UTC every day
-2. Reads subscribers from `data/subscribers.json`
-3. Generates unique inspiration + image for each subscriber
-4. Sends via Resend API (batch mode)
+2. Fetches subscribers from Resend Audience (not a local file)
+3. Generates unique AI image + prompt for each subscriber via Cloudflare Workers AI
+4. Sends styled email with inline image, List-Unsubscribe headers, plain text version
 5. Respects Resend free tier (100 emails/day, 3,000/month)
 
 ## Setup (all free)
@@ -44,6 +46,7 @@ scripts/send-daily-email.js — Daily email script (reads subscribers, generates
 1. Sign up at https://vercel.com → import GitHub repo
 2. Environment variables in Vercel dashboard → Settings → Environment Variables:
    - `RESEND_API_KEY` = your Resend API key (https://resend.com)
+   - `RESEND_AUDIENCE_ID` = your Resend Audience ID
    - `CF_API_TOKEN` = your Cloudflare API token (https://cloudflare.com)
    - `CF_ACCOUNT_ID` = your Cloudflare Account ID
    - `FROM_EMAIL` = custom from address (e.g. `artinspo<hello@artinspo.co.uk>`)
@@ -52,8 +55,11 @@ scripts/send-daily-email.js — Daily email script (reads subscribers, generates
 ### GitHub Actions (Daily Email)
 1. Add secrets to GitHub repo → Settings → Secrets and variables → Actions:
    - `RESEND_API_KEY` = your Resend API key
+   - `RESEND_AUDIENCE_ID` = your Resend Audience ID
+   - `CF_API_TOKEN` = your Cloudflare API token
+   - `CF_ACCOUNT_ID` = your Cloudflare Account ID
    - `FROM_EMAIL` = custom from address (e.g. `artinspo<hello@artinspo.co.uk>`)
-2. Populate `data/subscribers.json` with subscriber emails and categories
+2. Subscribers are auto-added via the website — no manual file needed
 3. Workflow runs daily at 9 AM UTC (`.github/workflows/daily-email.yml`)
 
 ## Services Used (all free tier)
