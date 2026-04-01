@@ -1,0 +1,9 @@
+# API keys and secrets
+KEYS
+
+# Environment files
+.env
+.env.*
+
+# Node
+node_modules/

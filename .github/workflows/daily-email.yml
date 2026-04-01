@@ -22,5 +22,8 @@ jobs:
       - name: Send daily emails
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
         run: node scripts/send-daily-email.js

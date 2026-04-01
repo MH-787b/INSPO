@@ -234,6 +234,19 @@ module.exports = async function handler(req, res) {
       return res.status(502).json({ error: `Email error: ${errBody}` });
     }
 
+    // Add subscriber to daily inspiration audience (fire-and-forget)
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+    if (audienceId) {
+      fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, unsubscribed: false })
+      }).catch(err => console.error('Audience add error:', err.message));
+    }
+
     return res.status(200).json({ ok: true, prompt: inspo.prompt });
   } catch (err) {
     console.error('Send error:', err);

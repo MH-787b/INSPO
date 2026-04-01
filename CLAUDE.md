@@ -77,6 +77,10 @@ scripts/send-daily-email.js — Daily email script (reads subscribers, generates
 - **Content**: cid: inline image (not base64), plain text version, good text-to-image ratio
 - **Subject line**: No emojis, descriptive format (`Your {category} inspiration: {word}`)
 
+## Security
+- **KEYS** — Local-only file storing API keys. **NEVER push to GitHub.** Listed in `.gitignore`.
+- **`.gitignore`** — Excludes `KEYS`, `.env`, `.env.*`, and `node_modules/`
+
 ## Repository
 - **Remote**: https://github.com/MH-787b/INSPO.git
 - **Hosting**: Vercel (connected to GitHub repo)
