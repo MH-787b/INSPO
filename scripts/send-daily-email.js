@@ -29,7 +29,7 @@ const PROMPTS = [
   { prompt: "Write what this room remembers.", word: "echo", icon: "📖", category: "Story", scene: "an abandoned ballroom with dust in the air, a single chandelier still lit, sheet music scattered on the floor" },
   { prompt: "What is this person about to say?", word: "threshold", icon: "🎭", category: "Emotion", scene: "a sealed envelope resting on a windowsill, weathered hands' imprint in dust beside it, soft window light" },
   { prompt: "This is what courage looks like at 4am.", word: "resolve", icon: "🎭", category: "Emotion", scene: "a rooftop garden at dawn, a single coffee cup still steaming on the ledge, city lights below, first light on the horizon" },
-  { prompt: "She hasn't smiled like this in years.", word: "release", icon: "🎭", category: "Emotion", scene: "bare footprints on a kitchen tile floor, morning light streaming through curtains, a record player spinning" },
+  { prompt: "She hasn't smiled like this in years.", word: "release", icon: "🎭", category: "Emotion", scene: "morning light streaming through kitchen curtains, a record player spinning, a warm cup of tea on the counter" },
   { prompt: "Two people who will never meet again.", word: "farewell", icon: "🎭", category: "Emotion", scene: "two umbrellas abandoned on opposite ends of a rain-soaked bench, reflections on wet pavement, street lamps glowing" },
   { prompt: "What happened here?", word: "aftermath", icon: "🌍", category: "Place", scene: "an overgrown greenhouse with broken glass, tropical plants reclaiming the space, soft fog rolling in" },
   { prompt: "Nobody knows this place exists.", word: "hidden", icon: "🌍", category: "Place", scene: "a narrow stone staircase descending into a cave with bioluminescent blue water, ancient carvings on the walls" },
@@ -65,7 +65,7 @@ async function getSubscribers() {
 // ── Generate Image via Cloudflare Workers AI ──
 
 function buildImagePrompt(inspo) {
-  return `${inspo.scene}, no people, no faces, no figures, cinematic photography, atmospheric, high quality, detailed`;
+  return `${inspo.scene}, no people, no faces, no figures, no footprints, cinematic photography, atmospheric, high quality, detailed`;
 }
 
 function buildFallbackPrompt() {
